@@ -10,11 +10,14 @@ function carregar() {
 }
 
 function pare() {
-    clearInterval(contar)
+    document.getElementById("start").onclick = start;
+    clearInterval(contar);
 }
 
 function start() {
+    document.getElementById("start").onclick = null;
     contar = setInterval(cronometrar, 1000);
+
 }
 
 
