@@ -11,14 +11,30 @@ function carregar() {
 }
 
 function pare() {
-    document.getElementById("start").onclick = start;
+    var verificar = document.getElementById("cronometro").checked;
+    if(verificar){
+        document.getElementById("start").onclick = start;
+    } else {
+        document.getElementById("start").onclick = startTimer;
+    }
+    document.getElementById("cronometro").disabled = false;
+    document.getElementById("timer").disabled = false;
     clearInterval(contar);
 }
 
 function start() {
     document.getElementById("start").onclick = null;
+    document.getElementById("cronometro").disabled = true;
+    document.getElementById("timer").disabled = true;
     contar = setInterval(cronometrar, 1000);
 
+}
+
+function startTimer(){
+    document.getElementById("start").onclick = null;
+    document.getElementById("cronometro").disabled = true;
+    document.getElementById("timer").disabled = true;
+    contar = setInterval(timerStart, 1000);
 }
 
 function limpar(){
@@ -28,11 +44,16 @@ function limpar(){
     document.getElementById("start").onclick = start;
     clearInterval(contar);
     document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
-    segundo++;
-
 }
 
-
+function timerStart(){
+    if (segundo < 00) {
+        minuto--;
+        segundo = 0;
+    }
+    document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
+    segundo--;
+}
 function cronometrar() {
     if (segundo > 59) {
         minuto++;
@@ -52,3 +73,17 @@ function formatoData(numero) {
     return texto;
 }
 
+function TimerOn(){
+    document.getElementById("cronometro").checked = false;
+    document.getElementById("start").onclick = startTimer;
+    minuto = 2;
+    segundo = 59;
+    hora = 0;
+}
+
+function CronometroOn(){
+    document.getElementById("timer").checked = false;
+    minuto = 0;
+    segundo = 0;
+    hora = 0;
+}
