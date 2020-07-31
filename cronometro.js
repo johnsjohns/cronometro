@@ -38,9 +38,15 @@ function startTimer(){
 }
 
 function limpar(){
-    minuto = 0;
-    segundo = 0;
-    hora = 0;
+    var verificar = document.getElementById("cronometro").checked
+    if(verificar){
+        minuto = 0;
+        segundo = 0;
+        hora = 0;
+    } else {
+        minuto = 2;
+        segundo = 59;
+        hora = 0}
     document.getElementById("start").onclick = start;
     clearInterval(contar);
     document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
