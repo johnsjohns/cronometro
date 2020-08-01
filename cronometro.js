@@ -1,52 +1,55 @@
-let minuto = 0;
-let segundo = 0;
-let hora = 0;
-let contar;
-
+var minuto = 0;
+var segundo = 0;
+var hora = 0;
+var contar;
+var botaoStart;
+var verificar;
 
 function carregar() {
-    document.getElementById("start").onclick = start;
+    botaoStart = document.getElementById("start");
+    botaoStart.onclick = start;
     document.getElementById("stop").onclick = pare;
     document.getElementById("clear").onclick = limpar;
+    verificar = document.getElementById("cronometro");
 }
 
 function pare() {
-    var verificar = document.getElementById("cronometro").checked;
-    if(verificar){
-        document.getElementById("start").onclick = start;
+    if(verificar.checked){
+        botaoStart.onclick = start;
     } else {
-        document.getElementById("start").onclick = startTimer;
+        botaoStart.onclick = startTimer;
     }
-    document.getElementById("cronometro").disabled = false;
-    document.getElementById("timer").disabled = false;
+    enableRadio();
     clearInterval(contar);
 }
 
 function start() {
-    document.getElementById("start").onclick = null;
+    botaoStart.onclick = null;
     contar = setInterval(cronometrar, 1000);
-       disableRadio();
+    disableRadio();
 }
 
 function startTimer(){
-    document.getElementById("start").onclick = null;
+    botaoStart.onclick = null;
     disableRadio();
     contar = setInterval(timerStart, 1000);
 }
 
 function limpar(){
-    var verificar = document.getElementById("cronometro").checked
-    if(verificar){
+    if(verificar.checked){
         minuto = 0;
         segundo = 0;
         hora = 0;
+        botaoStart.onclick = start;
     } else {
         minuto = 2;
         segundo = 59;
-        hora = 0}
-    document.getElementById("start").onclick = start;
+        hora = 0
+        botaoStart.onclick = startTimer;
+    }
+    
     clearInterval(contar);
-    document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
+    mostrarData();
     enableRadio();
 }
 
@@ -55,7 +58,7 @@ function timerStart(){
         minuto--;
         segundo = 0;
     }
-    document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
+    mostrarData();
     segundo--;
 }
 function cronometrar() {
@@ -63,7 +66,7 @@ function cronometrar() {
         minuto++;
         segundo = 0;
     }
-    document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
+    mostrarData();
     segundo++;
 }
 
@@ -77,12 +80,16 @@ function formatoData(numero) {
     return texto;
 }
 
+function mostrarData(){
+    document.getElementById("relogio").innerHTML = formatoData(hora) + ":" + formatoData(minuto) + ":" + formatoData(segundo);
+}
+
 function TimerOn(){
     minuto = 2;
     segundo = 59;
     hora = 0;
     document.getElementById("cronometro").checked = false;
-    document.getElementById("start").onclick = startTimer;
+    botaoStart.onclick = startTimer;
     
 }
 
@@ -91,10 +98,15 @@ function CronometroOn(){
     segundo = 0;
     hora = 0;
     document.getElementById("timer").checked = false;
-    document.getElementById("start").onclick = start;
+    botaoStart.onclick = start;
 }
 
 function disableRadio(){
     document.getElementById("cronometro").disabled = true;
     document.getElementById("timer").disabled = true;
+}
+
+function enableRadio(){
+    document.getElementById("cronometro").disabled = false;
+    document.getElementById("timer").disabled = false;
 }
